@@ -352,3 +352,25 @@ snps.filt.cov.var.SucvRes.sort.short <- filter(snps.filt.cov.var.SucvRes.sort.sh
 # write.csv(snps.filt.cov.var.SucvRes.sort.short, file = "results/GWSS_RNASeq1.snpEff.matrix_high.SucandRes_R_AlleleFreqs.short.csv")
 
 
+
+#cross reference the different lists for overlap
+a <- full_join(snps.filt.cov.var.SucvRes.sort.short, snps.filt.cov.var.BvC.sort.short)
+b <- full_join(a, snps.filt.cov.var.BvD.sort.short)
+c <- full_join(b, snps.filt.cov.var.AvD.sort.short)
+d <- full_join(c, snps.filt.cov.var.AvC.sort.short)
+
+#rename
+d$FreqDiff_Susceptible_AB_vs_Resistant_CD <- d$Suc.AB.vs.Res.CD.REF.freq
+d$FreqDiff_Tulare_Susceptible_A_vs_GeneralBeale_Resistant_C <- d$A.vs.C.REF.freq
+d$FreqDiff_Tulare_Susceptible_A_vs_Tulare_Resistant_D <- d$A.vs.D.REF.freq
+d$FreqDiff_Temecula_Susceptible_B_vs_GeneralBeale_Resistant_C <- d$B.vs.C.REF.freq
+d$FreqDiff_Temecula_Susceptible_B_vs_Tulare_Resistant_D <- d$B.vs.D.REF.freq
+
+
+#subset to only get differences between reference freq for group comparions
+d.v2 <- subset(d, select = -c(A.REF.freq, B.REF.freq, C.REF.freq, D.REF.freq, A.ALT.freq, B.ALT.freq, C.ALT.freq,D.ALT.freq,A.B.suc.ALT.freq, A.B.suc.REF.freq, C.D.res.ALT.freq, C.D.res.REF.freq, Suc.AB.vs.Res.CD.REF.freq, A.vs.C.REF.freq, A.vs.D.REF.freq, B.vs.D.REF.freq, B.vs.C.REF.freq))
+
+#reorder
+d.v2 <- d.v2[order(-d.v2$FreqDiff_Susceptible_AB_vs_Resistant_CD),]
+
+#write.csv(d.v2, file = "results/GWSS_RNASeq1.snpEff.matrix_high.CombinedResults_R_AlleleFreqsDifferences.short.csv")
