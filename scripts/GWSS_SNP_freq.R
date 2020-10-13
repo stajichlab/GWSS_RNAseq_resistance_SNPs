@@ -337,19 +337,19 @@ snps.filt.cov.var.SucvRes.sort.short <- subset(snps.filt.cov.var.SucvRes.sort, s
 
 
 #filter out alleles that don't differ > .5
-snps.filt.cov.var.AvC.sort.short <- filter(snps.filt.cov.var.AvC.sort.short, A.vs.C.REF.freq > 0.5)
-snps.filt.cov.var.BvC.sort.short <- filter(snps.filt.cov.var.BvC.sort.short, B.vs.C.REF.freq > 0.5)
-snps.filt.cov.var.BvD.sort.short <- filter(snps.filt.cov.var.BvD.sort.short, B.vs.D.REF.freq > 0.5)
-snps.filt.cov.var.AvD.sort.short <- filter(snps.filt.cov.var.AvD.sort.short, A.vs.D.REF.freq > 0.5)
-snps.filt.cov.var.SucvRes.sort.short <- filter(snps.filt.cov.var.SucvRes.sort.short, Suc.AB.vs.Res.CD.REF.freq > 0.5)
+snps.filt.cov.var.AvC.sort.short.filt <- filter(snps.filt.cov.var.AvC.sort.short, A.vs.C.REF.freq > 0.5)
+snps.filt.cov.var.BvC.sort.short.filt <- filter(snps.filt.cov.var.BvC.sort.short, B.vs.C.REF.freq > 0.5)
+snps.filt.cov.var.BvD.sort.short.filt <- filter(snps.filt.cov.var.BvD.sort.short, B.vs.D.REF.freq > 0.5)
+snps.filt.cov.var.AvD.sort.short.filt <- filter(snps.filt.cov.var.AvD.sort.short, A.vs.D.REF.freq > 0.5)
+snps.filt.cov.var.SucvRes.sort.short.filt <- filter(snps.filt.cov.var.SucvRes.sort.short, Suc.AB.vs.Res.CD.REF.freq > 0.5)
 
 
 #save file as csv
-# write.csv(snps.filt.cov.var.AvC.sort.short, file = "results/GWSS_RNASeq1.snpEff.matrix_high.AandC_R_AlleleFreqs.short.csv")
-# write.csv(snps.filt.cov.var.BvC.sort.short, file = "results/GWSS_RNASeq1.snpEff.matrix_high.BandC_R_AlleleFreqs.short.csv")
-# write.csv(snps.filt.cov.var.BvD.sort.short, file = "results/GWSS_RNASeq1.snpEff.matrix_high.BandD_R_AlleleFreqs.short.csv")
-# write.csv(snps.filt.cov.var.AvD.sort.short, file = "results/GWSS_RNASeq1.snpEff.matrix_high.AandD_R_AlleleFreqs.short.csv")
-# write.csv(snps.filt.cov.var.SucvRes.sort.short, file = "results/GWSS_RNASeq1.snpEff.matrix_high.SucandRes_R_AlleleFreqs.short.csv")
+# write.csv(snps.filt.cov.var.AvC.sort.short.filt, file = "results/GWSS_RNASeq1.snpEff.matrix_high.AandC_R_AlleleFreqs.short.csv")
+# write.csv(snps.filt.cov.var.BvC.sort.short.filt, file = "results/GWSS_RNASeq1.snpEff.matrix_high.BandC_R_AlleleFreqs.short.csv")
+# write.csv(snps.filt.cov.var.BvD.sort.short.filt, file = "results/GWSS_RNASeq1.snpEff.matrix_high.BandD_R_AlleleFreqs.short.csv")
+# write.csv(snps.filt.cov.var.AvD.sort.short.filt, file = "results/GWSS_RNASeq1.snpEff.matrix_high.AandD_R_AlleleFreqs.short.csv")
+# write.csv(snps.filt.cov.var.SucvRes.sort.short.filt, file = "results/GWSS_RNASeq1.snpEff.matrix_high.SucandRes_R_AlleleFreqs.short.csv")
 
 
 
@@ -373,4 +373,12 @@ d.v2 <- subset(d, select = -c(A.REF.freq, B.REF.freq, C.REF.freq, D.REF.freq, A.
 #reorder
 d.v2 <- d.v2[order(-d.v2$FreqDiff_Susceptible_AB_vs_Resistant_CD),]
 
-#write.csv(d.v2, file = "results/GWSS_RNASeq1.snpEff.matrix_high.CombinedResults_R_AlleleFreqsDifferences.short.csv")
+
+#write.csv(d.v2, file = "results/GWSS_RNASeq1.snpEff.matrix_high.CombinedResults_R_AlleleFreqsDifferences.csv")
+
+
+#filter
+d.v2.filt <- filter(d.v2, FreqDiff_Susceptible_AB_vs_Resistant_CD > 0.5 | FreqDiff_Tulare_Susceptible_A_vs_GeneralBeale_Resistant_C > 0.625 | FreqDiff_Tulare_Susceptible_A_vs_Tulare_Resistant_D > 0.625 | FreqDiff_Temecula_Susceptible_B_vs_GeneralBeale_Resistant_C > 0.625 | FreqDiff_Temecula_Susceptible_B_vs_Tulare_Resistant_D > 0.625)
+
+
+#write.csv(d.v2.filt, file = "results/GWSS_RNASeq1.snpEff.matrix_high.CombinedResults_R_AlleleFreqsDifferences.short.csv")
