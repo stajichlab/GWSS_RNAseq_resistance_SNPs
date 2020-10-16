@@ -320,11 +320,11 @@ ggplot(snps.filt.cov.var.AvC.sort, aes(x=C.REF.freq)) +geom_histogram() + facet_
 
 
 #save file as csv
-#write.csv(snps.filt.cov.var.AvC.sort, file = "results/GWSS_RNASeq1.snpEff.matrix_high.AandC_R_AlleleFreqs.csv")
-#write.csv(snps.filt.cov.var.BvC.sort, file = "results/GWSS_RNASeq1.snpEff.matrix_high.BandC_R_AlleleFreqs.csv")
-#write.csv(snps.filt.cov.var.AvD.sort, file = "results/GWSS_RNASeq1.snpEff.matrix_high.AandD_R_AlleleFreqs.csv")
-#write.csv(snps.filt.cov.var.BvD.sort, file = "results/GWSS_RNASeq1.snpEff.matrix_high.BandD_R_AlleleFreqs.csv")
-#write.csv(snps.filt.cov.var.SucvRes.sort, file = "results/GWSS_RNASeq1.snpEff.matrix_high.SucvRes_R_AlleleFreqs.csv")
+#write.csv(snps.filt.cov.var.AvC.sort, file = "intermed_results/GWSS_RNASeq1.snpEff.matrix_high.AandC_R_AlleleFreqs.csv")
+#write.csv(snps.filt.cov.var.BvC.sort, file = "intermed_results/GWSS_RNASeq1.snpEff.matrix_high.BandC_R_AlleleFreqs.csv")
+#write.csv(snps.filt.cov.var.AvD.sort, file = "intermed_results/GWSS_RNASeq1.snpEff.matrix_high.AandD_R_AlleleFreqs.csv")
+#write.csv(snps.filt.cov.var.BvD.sort, file = "intermed_results/GWSS_RNASeq1.snpEff.matrix_high.BandD_R_AlleleFreqs.csv")
+#write.csv(snps.filt.cov.var.SucvRes.sort, file = "intermed_results/GWSS_RNASeq1.snpEff.matrix_high.SucvRes_R_AlleleFreqs.csv")
 
 
 #make short file
@@ -345,11 +345,11 @@ snps.filt.cov.var.SucvRes.sort.short.filt <- filter(snps.filt.cov.var.SucvRes.so
 
 
 #save file as csv
-# write.csv(snps.filt.cov.var.AvC.sort.short.filt, file = "results/GWSS_RNASeq1.snpEff.matrix_high.AandC_R_AlleleFreqs.short.csv")
-# write.csv(snps.filt.cov.var.BvC.sort.short.filt, file = "results/GWSS_RNASeq1.snpEff.matrix_high.BandC_R_AlleleFreqs.short.csv")
-# write.csv(snps.filt.cov.var.BvD.sort.short.filt, file = "results/GWSS_RNASeq1.snpEff.matrix_high.BandD_R_AlleleFreqs.short.csv")
-# write.csv(snps.filt.cov.var.AvD.sort.short.filt, file = "results/GWSS_RNASeq1.snpEff.matrix_high.AandD_R_AlleleFreqs.short.csv")
-# write.csv(snps.filt.cov.var.SucvRes.sort.short.filt, file = "results/GWSS_RNASeq1.snpEff.matrix_high.SucandRes_R_AlleleFreqs.short.csv")
+# write.csv(snps.filt.cov.var.AvC.sort.short.filt, file = "intermed_results/GWSS_RNASeq1.snpEff.matrix_high.AandC_R_AlleleFreqs.short.csv")
+# write.csv(snps.filt.cov.var.BvC.sort.short.filt, file = "intermed_results/GWSS_RNASeq1.snpEff.matrix_high.BandC_R_AlleleFreqs.short.csv")
+# write.csv(snps.filt.cov.var.BvD.sort.short.filt, file = "intermed_results/GWSS_RNASeq1.snpEff.matrix_high.BandD_R_AlleleFreqs.short.csv")
+# write.csv(snps.filt.cov.var.AvD.sort.short.filt, file = "intermed_results/GWSS_RNASeq1.snpEff.matrix_high.AandD_R_AlleleFreqs.short.csv")
+# write.csv(snps.filt.cov.var.SucvRes.sort.short.filt, file = "intermed_results/GWSS_RNASeq1.snpEff.matrix_high.SucandRes_R_AlleleFreqs.short.csv")
 
 
 
