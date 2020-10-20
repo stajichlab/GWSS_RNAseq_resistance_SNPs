@@ -55,3 +55,47 @@ GWSS_SNP_annot.uniq <- GWSS_SNP_annot %>% distinct()
 
 
 #write.csv(GWSS_SNP_annot.uniq, file = "results/GWSS_SNP_annotations.snpEff.high.freqdiff.short.csv")
+
+
+
+
+
+### Add pfam gene names ###
+
+# downloaded pfam_hits from funannoate folder
+# opened in Excel to make into tab delim and unnecessary columns
+pfam_names <- read.delim('data/pfam_hits.txt', header= FALSE)
+
+#remove duplicate rows
+pfam_names.uniq <- pfam_names %>% distinct()
+
+#remove from R space
+rm(pfam_names)
+
+#assign header name to column for merge
+pfam_names.uniq$GENE <- pfam_names.uniq$V3
+pfam_names.uniq$Pfam.Ann <- pfam_names.uniq$V1
+pfam_names.uniq$Pfam.ID <- pfam_names.uniq$V2
+
+pfam_names.uniq <- subset(pfam_names.uniq, select = -c(V1, V2, V3))
+
+#merge - will end up with duplicates bc some have multiple pfam hits
+GWSS_SNP_annot.pfam <- left_join(GWSS_SNP_annot.uniq, pfam_names.uniq)
+
+#remove from R space
+rm(pfam_names.uniq)
+
+#Group by SNP and collapse PFAM annotations (b/c there are multiple annotations per gene)
+GWSS_SNP_annot.pfam.v2 <- GWSS_SNP_annot.pfam %>%  
+  group_by(CHANGEDNA) %>% 
+  summarise(PFAM.annot = str_c(Pfam.Ann, collapse = "; "))  %>%
+  ungroup()
+
+#merge new pfam annotations back to original SNP df 
+GWSS_SNP_annot.pfam.annot <- left_join(GWSS_SNP_annot.uniq, GWSS_SNP_annot.pfam.v2)
+
+#Remove fron R space
+rm(GWSS_SNP_annot.pfam.v2)
+
+#save output, note we are overwriting early output here so be careful! 
+#write.csv(GWSS_SNP_annot.pfam.v2, file = "results/GWSS_SNP_annotations.snpEff.high.freqdiff.short.csv")
