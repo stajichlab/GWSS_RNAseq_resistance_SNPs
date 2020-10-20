@@ -98,4 +98,4 @@ GWSS_SNP_annot.pfam.annot <- left_join(GWSS_SNP_annot.uniq, GWSS_SNP_annot.pfam.
 rm(GWSS_SNP_annot.pfam.v2)
 
 #save output, note we are overwriting early output here so be careful! 
-#write.csv(GWSS_SNP_annot.pfam.v2, file = "results/GWSS_SNP_annotations.snpEff.high.freqdiff.short.csv")
+#write.csv(GWSS_SNP_annot.pfam.annot, file = "results/GWSS_SNP_annotations.snpEff.high.freqdiff.short.csv")
