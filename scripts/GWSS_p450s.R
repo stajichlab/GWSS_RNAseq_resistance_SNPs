@@ -30,3 +30,4 @@ summary(as.factor(pfam.p450s$GENE))
 #grep "HOVITM_016113" HV_A6A7A9_masurca_v1.annotations.high.short.sort.txt >> GWSS_p450s_seq.txt
 #grep "HOVITM_068229" HV_A6A7A9_masurca_v1.annotations.high.short.sort.txt >> GWSS_p450s_seq.txt
 
+#opened in Excel and saved as 'csv'
