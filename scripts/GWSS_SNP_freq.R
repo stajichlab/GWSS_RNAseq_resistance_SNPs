@@ -198,6 +198,9 @@ snps.filt.cov$A.B.suc.ALT.freq <- 0
 snps.filt.cov$C.D.res.ALT.freq <-0
 
 
+
+
+
 #set up to save freq for each pop 
 snps.filt.cov.AC$A.REF.freq <- 0
 snps.filt.cov.AC$C.REF.freq <- 0
@@ -211,6 +214,7 @@ snps.filt.cov.BC$C.REF.freq <- 0
 snps.filt.cov.BD$B.REF.freq <- 0
 snps.filt.cov.BD$D.REF.freq <- 0
 
+
 #alt freqs
 snps.filt.cov.AC$A.ALT.freq <- 0
 snps.filt.cov.AC$C.ALT.freq <- 0
@@ -223,6 +227,8 @@ snps.filt.cov.BC$C.ALT.freq <- 0
 
 snps.filt.cov.BD$B.ALT.freq <- 0
 snps.filt.cov.BD$D.ALT.freq <- 0
+
+
 
 
 #turn sums to proportion & calculate alt allele freq based on REF
@@ -352,12 +358,21 @@ snps.filt.cov.var.SucvRes.sort.short.filt <- filter(snps.filt.cov.var.SucvRes.so
 # write.csv(snps.filt.cov.var.SucvRes.sort.short.filt, file = "intermed_results/GWSS_RNASeq1.snpEff.matrix_high.SucandRes_R_AlleleFreqs.short.csv")
 
 
+#remove some columns generated in R
+snps.filt.cov.var.AvC.short <- subset(snps.filt.cov.var.AvC, select = -c(A.REF.sum, C.REF.sum, indel, missing, missing.Apop, missing.Bpop, missing.Cpop, missing.Dpop))
+snps.filt.cov.var.BvC.short <- subset(snps.filt.cov.var.BvC, select = -c(B.REF.sum, C.REF.sum, indel, missing, missing.Apop, missing.Bpop, missing.Cpop, missing.Dpop))
+snps.filt.cov.var.BvD.short <- subset(snps.filt.cov.var.BvD, select = -c(B.REF.sum, D.REF.sum, indel, missing, missing.Apop, missing.Bpop, missing.Cpop, missing.Dpop))
+snps.filt.cov.var.AvD.short <- subset(snps.filt.cov.var.AvD, select = -c(A.REF.sum, D.REF.sum, indel, missing, missing.Apop, missing.Bpop, missing.Cpop, missing.Dpop))
+snps.filt.cov.var.SucvRes.short <- subset(snps.filt.cov.var.SucvRes, select = -c(A.REF.sum, B.REF.sum, D.REF.sum, C.REF.sum, indel, missing, missing.Apop, missing.Bpop, missing.Cpop, missing.Dpop))
+
+
+
 
 #cross reference the different lists for overlap
-a <- full_join(snps.filt.cov.var.SucvRes.sort.short, snps.filt.cov.var.BvC.sort.short)
-b <- full_join(a, snps.filt.cov.var.BvD.sort.short)
-c <- full_join(b, snps.filt.cov.var.AvD.sort.short)
-d <- full_join(c, snps.filt.cov.var.AvC.sort.short)
+a <- full_join(snps.filt.cov.var.SucvRes.short, snps.filt.cov.var.BvC.short)
+b <- full_join(a, snps.filt.cov.var.BvD.short, by = c("CHROM", "POS", "FLANKING", "TYPE", "IMPACT", "GENE", "CHANGEDNA", "CHANGEPEP", "REF", "ALT", "A.1", "A.2", "A.3", "A.4", "B.1", "B.2", "B.3", "B.4", "C.1", "C.2", "C.3", "C.4", "D.1", "D.2", "D.3", "D.4", "ANN"))
+c <- full_join(b, snps.filt.cov.var.AvD.short, by = c("CHROM", "POS", "FLANKING", "TYPE", "IMPACT", "GENE", "CHANGEDNA", "CHANGEPEP", "REF", "ALT", "A.1", "A.2", "A.3", "A.4", "B.1", "B.2", "B.3", "B.4", "C.1", "C.2", "C.3", "C.4", "D.1", "D.2", "D.3", "D.4", "ANN"))
+d <- full_join(c, snps.filt.cov.var.AvC.short, by = c("CHROM", "POS", "FLANKING", "TYPE", "IMPACT", "GENE", "CHANGEDNA", "CHANGEPEP", "REF", "ALT", "A.1", "A.2", "A.3", "A.4", "B.1", "B.2", "B.3", "B.4", "C.1", "C.2", "C.3", "C.4", "D.1", "D.2", "D.3", "D.4", "ANN"))
 
 #rename
 d$FreqDiff_Susceptible_AB_vs_Resistant_CD <- d$Suc.AB.vs.Res.CD.REF.freq
@@ -368,7 +383,7 @@ d$FreqDiff_Temecula_Susceptible_B_vs_Tulare_Resistant_D <- d$B.vs.D.REF.freq
 
 
 #subset to only get differences between reference freq for group comparions
-d.v2 <- subset(d, select = -c(A.REF.freq, B.REF.freq, C.REF.freq, D.REF.freq, A.ALT.freq, B.ALT.freq, C.ALT.freq,D.ALT.freq,A.B.suc.ALT.freq, A.B.suc.REF.freq, C.D.res.ALT.freq, C.D.res.REF.freq, Suc.AB.vs.Res.CD.REF.freq, A.vs.C.REF.freq, A.vs.D.REF.freq, B.vs.D.REF.freq, B.vs.C.REF.freq))
+d.v2 <- subset(d, select = -c(A.REF.freq.x, A.REF.freq.y, B.REF.freq.x, B.REF.freq.y, C.REF.freq.x, C.REF.freq.y, D.REF.freq.x, D.REF.freq.y, A.ALT.freq.x,A.ALT.freq.y, B.ALT.freq.x, B.ALT.freq.y, C.ALT.freq.x,C.ALT.freq.y,D.ALT.freq.x,D.ALT.freq.y,A.B.suc.ALT.freq, A.B.suc.REF.freq, C.D.res.ALT.freq, C.D.res.REF.freq, Suc.AB.vs.Res.CD.REF.freq, A.vs.C.REF.freq, A.vs.D.REF.freq, B.vs.D.REF.freq, B.vs.C.REF.freq))
 
 #reorder
 d.v2 <- d.v2[order(-d.v2$FreqDiff_Susceptible_AB_vs_Resistant_CD),]
