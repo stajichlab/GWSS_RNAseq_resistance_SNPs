@@ -173,5 +173,5 @@ rm(GWSS_all_indel_annot.pfam.v2)
 #save output, note we are overwriting early output here so be careful! 
 #write.csv(GWSS_SNP_annot.pfam.annot, file = "results/GWSS_SNP_annotations.snpEff.high.freqdiff.short.csv")
 #write.csv(GWSS_all_snps_annot.uniq.pfam.annot, file = "results/GWSS_SNP_annotations.snpEff.high.freqdiff.csv")
-#write.csv(GWSS_indal_annot.uniq.pfam.annot, file = "results/GWSS_indel_annotations.snpEff.high.freqdiff.short.csv")
-#write.csv(GWSS_all_indel_annot.uniq.pfam.annot, file = "results/GWSS_indel_annotations.snpEff.high.freqdiff.csv")
+#write.csv(GWSS_indal_annot.uniq.pfam.annot, file = "results/indels/GWSS_indel_annotations.snpEff.high.freqdiff.short.csv")
+#write.csv(GWSS_all_indel_annot.uniq.pfam.annot, file = "results/indels/GWSS_indel_annotations.snpEff.high.freqdiff.csv")
