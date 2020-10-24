@@ -41,6 +41,9 @@ GWSS_annot <- read.delim("data/HV_A6A7A9_masurca_v1.annotations.high.short.txt")
 SNP_targets <- read.csv("results/GWSS_RNASeq1.snpEff.matrix_high.CombinedResults_R_AlleleFreqsDifferences.short.csv")
 GWSS_all_snps <- read.csv("results/GWSS_RNASeq1.snpEff.matrix_high.CombinedResults_R_AlleleFreqsDifferences.csv")
 
+indel_targets <-read.csv("results/indels/GWSS_RNASeq1.snpEff.matrix_high.CombinedResults_R_indelFreqsDifferences.short.csv")
+indel_all_targets <- read.csv("results/indels/GWSS_RNASeq1.snpEff.matrix_high.CombinedResults_R_indelfreqdifferences.csv")
+
 #having trouble merging - keep getting duplicates 
 #also issues with one gene name, fixing as follows
 SNP_targets$GENE[SNP_targets$GENE == "LIG3"] <- "HOVITM_112457"
@@ -52,6 +55,11 @@ GWSS_annot <- subset(GWSS_annot, select = -c(Notes, Alias.Synonyms, EC_number, I
 GWSS_SNP_annot <- left_join(SNP_targets, GWSS_annot, by = c("GENE" = "GeneID", "CHROM" = "Contig"))
 GWSS_all_snps_annot <- left_join(GWSS_all_snps, GWSS_annot, by = c("GENE" = "GeneID", "CHROM" = "Contig"))
 
+
+GWSS_indal_annot <- left_join(indel_targets, GWSS_annot, by = c("GENE" = "GeneID", "CHROM" = "Contig"))
+GWSS_all_indel_annot <- left_join(indel_all_targets, GWSS_annot, by = c("GENE" = "GeneID", "CHROM" = "Contig"))
+
+
 #using distinct to only get unique rows 
 GWSS_SNP_annot.uniq <- GWSS_SNP_annot %>% distinct()
 GWSS_all_snps_annot.uniq <- GWSS_all_snps_annot %>% distinct()
@@ -60,6 +68,13 @@ GWSS_all_snps_annot.uniq <- GWSS_all_snps_annot %>% distinct()
 #write.csv(GWSS_all_snps_annot.uniq, file = "results/GWSS_SNP_annotations.snpEff.high.freqdiff.csv")
 
 
+
+GWSS_indal_annot.uniq <- GWSS_indal_annot %>% distinct()
+GWSS_all_indel_annot.uniq <- GWSS_all_indel_annot %>% distinct()
+
+
+#write.csv(GWSS_indal_annot.uniq, file = "results/GWSS_indel_annotations.snpEff.high.freqdiff.short.csv")
+#write.csv(GWSS_all_indel_annot.uniq, file = "results/GWSS_indel_annotations.snpEff.high.freqdiff.csv")
 
 
 
@@ -86,6 +101,11 @@ pfam_names.uniq <- subset(pfam_names.uniq, select = -c(V1, V2, V3))
 GWSS_SNP_annot.pfam <- left_join(GWSS_SNP_annot.uniq, pfam_names.uniq)
 GWSS_all_snps_annot.uniq.pfam <- left_join(GWSS_all_snps_annot.uniq, pfam_names.uniq)
 
+
+GWSS_indal_annot.pfam <- left_join(GWSS_indal_annot.uniq, pfam_names.uniq)
+GWSS_all_indel_annot.pfam <- left_join(GWSS_all_indel_annot.uniq,pfam_names.uniq) 
+
+
 #get rid of miscalls  
 GWSS_SNP_annot.pfam <- GWSS_SNP_annot.pfam %>%
   mutate(Pfam.Ann = ifelse(PFAM =="", "", as.character(Pfam.Ann)), 
@@ -94,6 +114,15 @@ GWSS_SNP_annot.pfam <- GWSS_SNP_annot.pfam %>%
 GWSS_all_snps_annot.uniq.pfam <- GWSS_all_snps_annot.uniq.pfam %>%
   mutate(Pfam.Ann = ifelse(PFAM =="", "", as.character(Pfam.Ann)), 
          Pfam.ID  = ifelse(PFAM =="", "", as.character(Pfam.ID)))
+
+GWSS_indal_annot.pfam <- GWSS_indal_annot.pfam %>%
+  mutate(Pfam.Ann = ifelse(PFAM =="", "", as.character(Pfam.Ann)), 
+         Pfam.ID  = ifelse(PFAM =="", "", as.character(Pfam.ID)))
+
+GWSS_all_indel_annot.pfam <- GWSS_all_indel_annot.pfam %>%
+  mutate(Pfam.Ann = ifelse(PFAM =="", "", as.character(Pfam.Ann)), 
+         Pfam.ID  = ifelse(PFAM =="", "", as.character(Pfam.ID)))
+
 
 
 #remove from R space
@@ -110,18 +139,39 @@ GWSS_all_snps_annot.uniq.pfam.v2 <- GWSS_all_snps_annot.uniq.pfam %>%
   summarise(PFAM.annot = str_c(Pfam.Ann, collapse = "; "))  %>%
   ungroup()
 
+
+GWSS_indel_annot.pfam.v2 <- GWSS_indal_annot.pfam %>%  
+  group_by(CHANGEDNA, ANN) %>% 
+  summarise(PFAM.annot = str_c(Pfam.Ann, collapse = "; "))  %>%
+  ungroup()
+
+GWSS_all_indel_annot.pfam.v2 <- GWSS_all_indel_annot.pfam %>%  
+  group_by(CHANGEDNA, ANN) %>% 
+  summarise(PFAM.annot = str_c(Pfam.Ann, collapse = "; "))  %>%
+  ungroup()
+
+
+
+
 #merge new pfam annotations back to original SNP df 
 GWSS_SNP_annot.pfam.annot <- left_join(GWSS_SNP_annot.uniq, GWSS_SNP_annot.pfam.v2)
 
 GWSS_all_snps_annot.uniq.pfam.annot <- left_join(GWSS_all_snps_annot.uniq, GWSS_all_snps_annot.uniq.pfam.v2)
 
+GWSS_indal_annot.uniq.pfam.annot <- left_join(GWSS_indal_annot.uniq, GWSS_indel_annot.pfam.v2)
+
+GWSS_all_indel_annot.uniq.pfam.annot <- left_join(GWSS_all_indel_annot.uniq, GWSS_all_indel_annot.pfam.v2)
+
+
 
 #Remove fron R space
 rm(GWSS_SNP_annot.pfam.v2)
 rm(GWSS_all_snps_annot.uniq.pfam.v2)
-
-
+rm(GWSS_indel_annot.pfam.v2)
+rm(GWSS_all_indel_annot.pfam.v2)
 
 #save output, note we are overwriting early output here so be careful! 
 #write.csv(GWSS_SNP_annot.pfam.annot, file = "results/GWSS_SNP_annotations.snpEff.high.freqdiff.short.csv")
 #write.csv(GWSS_all_snps_annot.uniq.pfam.annot, file = "results/GWSS_SNP_annotations.snpEff.high.freqdiff.csv")
+#write.csv(GWSS_indal_annot.uniq.pfam.annot, file = "results/GWSS_indel_annotations.snpEff.high.freqdiff.short.csv")
+#write.csv(GWSS_all_indel_annot.uniq.pfam.annot, file = "results/GWSS_indel_annotations.snpEff.high.freqdiff.csv")
